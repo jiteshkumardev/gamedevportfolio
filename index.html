@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jitesh Kumar | Unity Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #222c37;
+            --accent: #00FFFF;
+            --text-light: #d1d5db;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #121212;
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        /* Glitch Effect */
+        .glitch-wrapper {
+            position: relative;
+        }
+
+        .glitch {
+            position: relative;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @media (max-width: 640px) {
+            .glitch {
+                font-size: 1.8rem;
+            }
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                text-shadow: 2px 2px #ff00ff, -2px -2px #00ffff;
+                transform: translate(0);
+            }
+
+            20% {
+                text-shadow: -2px 2px #ff00ff, 2px -2px #00ffff;
+                transform: translate(-1px, 1px);
+            }
+
+            40% {
+                text-shadow: 2px -2px #ff00ff, -2px 2px #00ffff;
+                transform: translate(1px, -1px);
+            }
+
+            60% {
+                text-shadow: -2px -2px #ff00ff, 2px 2px #00ffff;
+                transform: translate(-1px, -1px);
+            }
+
+            100% {
+                text-shadow: -2px -2px #ff00ff, 2px 2px #00ffff;
+                transform: translate(0);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ffff;
+        }
+
+        /* Project Card */
+        .project-card {
+            transition: all 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+            border-color: #00ffff;
+        }
+
+        /* Skill Bar Animation */
+        @keyframes fillBar {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: var(--width);
+            }
+        }
+
+        .skill-fill.animate {
+            animation: fillBar 1.5s ease-out forwards;
+        }
+
+        /* CRT Overlay */
+        .crt::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 50;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Modal Styles */
+        #video-modal {
+            backdrop-filter: blur(8px);
+        }
+
+        .play-overlay {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Recommendations Slider Styles */
+        #recommendations .flex.overflow-x-auto {
+            scrollbar-width: thin;
+            scrollbar-color: #4b5563 #1a1a1a;
+        }
+
+        #recommendations .flex.overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        #recommendations .flex.overflow-x-auto::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+
+        #recommendations .flex.overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+
+        #recommendations .flex.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #00ffff;
+        }
+    </style>
+</head>
+
+<body class="crt">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 bg-black/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fa-brands fa-unity text-3xl text-white"></i>
+                    <span
+                        class="pixel-font text-white text-lg md:text-xl cursor-pointer hover:text-cyan-400 transition-colors"
+                        onclick="window.scrollTo(0,0)">
+                        JITESH KUMAR
+                    </span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Home</a>
+                        <a href="#showreel"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Showreel</a>
+                        <a href="#projects"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Projects</a>
+                        <a href="#skills"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Skills</a>
+                        <a href="#recommendations"
+                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Recommendations</a>
+                        <a href="#contact"
+                            class="px-4 py-2 rounded border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-colors duration-300 font-bold">Contact</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button id="mobile-menu-btn" type="button"
+                        class="text-gray-400 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-b border-gray-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#home"
+                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded">Home</a>
+                <a href="#showreel"
+                    class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-lg font-medium transition-colors">Showreel</a>
+                <a href="#projects"
+                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded">Projects</a>
+                <a href="#skills"
+                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded">Skills</a>
+                <a href="#recommendations"
+                    class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded">Recommendations</a>
+                <a href="#contact"
+                    class="block px-3 py-2 text-base font-medium text-cyan-400 hover:bg-gray-800 rounded">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10" style="background-image: linear-gradient(#4b5563 1px, transparent 1px), linear-gradient(90deg, #4b5563 1px, transparent 1px); 
+                    background-size: 40px 40px; 
+                    transform: perspective(500px) rotateX(60deg) translateY(0);
+                    transform-origin: top center;">
+        </div>
+
+        <div class="relative z-10 max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center style="
+            backface-visibility: hidden;">
+            <!-- Left Side: Text Content -->
+            <div class="text-left md:text-left">
+                <div
+                    class="inline-block px-3 py-1 mb-4 border border-cyan-500 rounded-full bg-cyan-900/20 text-cyan-400 text-sm font-bold tracking-wider">
+                    <i class="fa-brands fa-unity mr-2"></i> UNITY DEVELOPER
+                </div>
+                <div
+                    class="inline-block px-3 py-1 mb-4 border border-cyan-500 rounded-full bg-cyan-900/20 text-cyan-400 text-sm font-bold tracking-wider">
+                    <i class="fa-solid fa-gamepad mr-2"></i>GAME DESIGNER
+                </div>
+                <div
+                    class="inline-block px-3 py-1 mb-4 border border-cyan-500 rounded-full bg-cyan-900/20 text-cyan-400 text-sm font-bold tracking-wider">
+                    <!-- switched to a cube icon for 3D artist -->
+                    <i class="fa-solid fa-cubes-stacked mr-2"></i> 3D ARTIST
+                </div>
+                <div class="glitch-wrapper mb-6">
+                    <h1 class="glitch text-left" data-text="JITESH KUMAR">JITESH KUMAR</h1>
+                </div>
+                <p class="text-gray-400 text-xl md:text-2xl mb-10 leading-relaxed font-light">
+                    Specializing in <span class="text-cyan-400 font-bold">VR</span>, <span
+                        class="text-cyan-400 font-bold">AR</span>, and <span class="text-cyan-400 font-bold">3D
+                        Gameplay</span> experiences.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#projects"
+                        class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-black font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(6,182,212,0.5)]">
+                        See Work
+                    </a>
+                    <a href="https://www.linkedin.com/in/jitesh-kumar-dev/" target="_blank"
+                        class="px-8 py-3 bg-[#0077b5] hover:bg-[#006097] text-white font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side: Profile Image -->
+            <div class="flex justify-center md:justify-end">
+                <div
+                    class="w-80 h-80 rounded-full border-4 border-cyan-500 overflow-hidden shadow-[0_0_30px_rgba(0,255,255,0.3)] flex items-center justify-center bg-gray-800">
+                    <img src="images/profile.png" alt="Jitesh Kumar" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showreel Section -->
+    <section id="showreel" class="py-20 bg-[#0e0e0e] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">MY SHOWREELS</h2>
+                <div class="h-1 w-20 bg-cyan-600 mx-auto"></div>
+                <p class="mt-4 text-gray-400 text-sm"><i class="fa-solid fa-info-circle mr-2"></i>Click on a tab to
+                    watch showreel</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Showreel 1: Development and Design Showreel -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('f7FqUHNHNRM')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10"></div>
+                        <i
+                            class="fa-brands fa-unity text-6xl text-cyan-600 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-cyan-400 border border-cyan-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            2D / 3D / VR / AR/ Mobile/ WebGL/Windows</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            Development & Design Showreel</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Developed and designed a variety of VR experiences, AR experiences and mobile games.
+                            Showcasing a range of skills from gameplay programming to immersive design.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">XR
+                                Interaction Toolkit</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">3D
+                                Games</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">2D
+                                Games</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Shader
+                                Development</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">VFX
+                                Graph</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Shuriken
+                                System</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Figma</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Showreel 2: 3D Showreel -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('e8_kiOdh-ic')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10"></div>
+                        <i
+                            class="fa-solid fa-cubes-stacked text-6xl text-purple-500 group-hover:skew-x-12 transition-transform duration-500"></i>
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-purple-400 border border-purple-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            Blender/ Maya/ Substance Painter/ Marmoset Toolbag 4</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                            3D Showreel</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Worked on 3D Models, Textures, and Materials for various projects. Proficient in Blender,
+                            Maya, Substance Painter, and Marmoset Toolbag 4 for creating high-quality game assets.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Blender</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Maya</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Substance
+                                Painter</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Marmoset
+                                Toolbag 4</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Adobe
+                                Photoshop</span>
+
+                        </div>
+                    </div>
+                </article>
+    </section>
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-[#0e0e0e] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">MY PROJECTS</h2>
+                <div class="h-1 w-20 bg-cyan-600 mx-auto"></div>
+                <p class="mt-4 text-gray-400 text-sm"><i class="fa-solid fa-info-circle mr-2"></i>Click on a
+                    project to
+                    watch gameplay</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Project 1: VR -->
+                <!--<article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('WNLgEVmMIxE')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <i
+                            class="fa-solid fa-vr-cardboard text-6xl text-cyan-600 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-cyan-400 border border-cyan-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            VR / OCULUS</div>
+                       
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            VR
+                            Cricket</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Immersive sports simulation built for VR headsets. Features realistic batting
+                            physics,
+                            spatial audio crowds, and motion controller integration.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">XR
+                                Interaction Toolkit</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Physics</span>
+                        </div>
+                    </div>
+                </article>
+                -->
+                <!-- Project 1: Getting Grown -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('AA2xFh3POXw')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+
+                        <!--  <i
+                            class="fa-solid fa-mobile-screen-button text-6xl text-cyan-600 group-hover:scale-110 transition-transform duration-500"></i>-->
+                        <img src="images/getting-grown.gif" class="w-full h-full object-cover" alt="Getting Grown">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-cyan-400 border border-cyan-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [COMMERCIAL] | 3D | ANDROID | OPEN WORLD | EDUCATIONAL GAME</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            Getting Grown</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Immersive open world game open-world mobile game that not only provides hours of fun
+                            exploration but also expands your financial and career savvy!
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Android</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                URP</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">AI
+                                Navigation</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shuriken Particle System</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">GPS
+                                Navigation using A* algorithm</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Wheel
+                                Colliders</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Physics</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Extension
+                                Methods</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Unity
+                                Editor Scripting</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Ready
+                                Player Me Avatars System</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Addressable
+                                Groups</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Physics</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Rest
+                                API Implementation</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Automated
+                                Iterative Tasks</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Implemented
+                                Reskinned Mini Games</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Implemented
+                                Courses and Quizzes using Scriptable Objects</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Project 5: WRATH OF THE MAD KING -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('Vkp5OxxKACk')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--  <i
+                            class="fa-solid fa-shapes text-6xl text-pink-500 group-hover:rotate-180 transition-transform duration-700"></i>-->
+                        <img src="images/inspire.gif" class="w-full h-full object-cover" alt="Inspire">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-pink-400 border border-pink-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [FREELANCE] | 3D | SCI-FI CYBERPUNK | TOP-DOWN ISOMETRIC</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                            INSPIRE [PREVIOUSLY (Wrath Of The Mad King)]</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            INSPIRE is a Stylized Top-Down Shooter set in the near future. Customize your arsenal, soar
+                            through the skies with your jetpack, and shoot your way through an alien invasion alongside
+                            your transformable backpack companion.<br>
+
+                            Worked on 3D main character, enemies models with different types as per the documents.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">3D
+                                Modelling</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Low poly</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">PBR
+                                Texturing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Hand Painted Textures</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Blender</span>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- Project 2: NEXUS RUSH -->
+                <!-- Project 2: AFRO WARRIOR -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('QgjIKQ5Z624')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <img src="images/afro-warrior.gif" class="w-full h-full object-cover"
+                            alt="Afro Warrior Glimpse">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-purple-400 border border-purple-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [COMMERCIAL] | 3D | ANDROID | ENDLESS RUNNER | MULTIPLAYER</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                            Afro Warrior</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            AfroWarrior is an exhilarating endless runner game set against the breathtaking backdrop of
+                            the African landscape.
+                            Implemented endless obstacles, fixed multiplayer functionality, dynamic weather,
+                            fixed shader issues, and optimized performance for mobile platforms.
+                            mechanics.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Endless
+                                Runner</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Photon
+                                PUN</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                URP</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Shader
+                                Optimization</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Shuriken
+                                Particle System</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Multiplayer
+                                Issues Fix</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Google
+                                Login</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Facebook
+                                Login</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Rest
+                                APIs Integration</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Physics</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Reskinning
+                                UI</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: HPL:HANDS PREMIERE LEAGUE -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('th9Dmpt-D1o')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!-- <i
+                            class="fa-solid fa-car-side text-6xl text-purple-500 group-hover:skew-x-12 transition-transform duration-500"></i>-->
+                        <img src="images/HPL.gif" class="w-full h-full object-cover" alt="Afro Warrior Glimpse">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-purple-400 border border-purple-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | 2D | ANDROID | ARCADE | MULTIPLAYER</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                            HPL : Hands Premiere League</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            HPL: Hands Premiere League is an exciting arcade-style multiplayer game where players
+                            compete in
+                            fast-paced hand cricket matches.
+                            Made from scratch, this game features intuitive touch controls, vibrant 2D graphics, and
+                            seamless multiplayer functionality using Photon PUN, allowing players to challenge friends
+                            and play 1v1 matches and climb the leaderboards.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                2D Cricket</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Photon
+                                PUN</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                URP</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">UI
+                                Animation</span>
+
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Shuriken
+                                Particle System & UI VFX</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Multiplayer
+                                Issues Fix</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: Endless Runner with Voice Controlled Controller -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('w9zSVRuj7xE')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--  <i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/scream-jumper.gif" class="w-full h-full object-cover" alt="Scream Jumper">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | 2D | ANDROID | VOICE CONTROLLED | EXPERIMENTAL </div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            Scream Jumper</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Endless runner game where players control the character's jumps by screaming into the
+                            microphone.
+                            The louder the scream, the longer the jump, creating a fun and interactive gaming
+                            experience.<br>
+
+                            Score is based on how long player can run on the ground without falling into the pits.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Voice Controlled Player Controller</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Endless Runner</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shuriken Particle System</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Physics</span>
+                        </div>
+                    </div>
+                </article>
+
+
+
+                <!-- Project 5: CHESS MULTIPLAYER -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('aRbuS6ATAdw')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--  <i
+                            class="fa-solid fa-shapes text-6xl text-pink-500 group-hover:rotate-180 transition-transform duration-700"></i>-->
+                        <img src="images/chess-playkeeps.gif" class="w-full h-full object-cover"
+                            alt="Chess Multiplayer (PlayKeeps)">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-pink-400 border border-pink-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [COMMERCIAL] | 2D | WEBGL | ASP.NET | MULTIPLAYER | MINIMALIST</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                            Chess Multiplayer</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            CHESS MULTIPLAYER is a multiplayer chess game. Players can
+                            customize their pieces, engage in strategic battles, and enjoy a minimalist design.<br>
+
+                            Worked on 3D main character, enemies models with different types as per the documents.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                2D
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                UI Animation</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Game Design</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Reskinning UI</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                JavaScript</span>
+
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                UI VFX using VFX Graph</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: ZOMBIE SHOOTER -->
+                <!-- Project 3: BUILDING CONFIGURATOR -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('8CnJCWH9xRo')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--<i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/build-configurator.gif" class="w-full h-full object-cover"
+                            alt="Building Configurator">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [COMMERCIAL] | 3D | WEBGL | ARCHITECHTURE</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            Building Configurator</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Dragging architechture layouts to create virtual home space with cinematic visualisation.
+                            Architechture Solution which brings users imagination onto a solid plan,
+                            consists 2D, 3D, VR mode.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Grid
+                                Based Layouts</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Software Programming</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Universal
+                                Render Pipeline</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Extension Methods</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Unity Editor Scripting</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Automated Iterative Tasks</span>
+                        </div>
+                    </div>
+                </article>
+                <!-- Project 3: VR ARCHERY -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('hS3TMZtX748')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--  <i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/vr-archery.gif" class="w-full h-full object-cover" alt="VR Archery">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [COMMERCIAL] | 3D | VR | META QUEST | ARCADE</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            VR Archery</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            VR Archery game designed for Meta Quest headsets. Players can test their
+                            archery
+                            skills in a virtual environment, aiming at targets while enjoying immersive visuals and
+                            realistic physics. Made for HSBC Bank's event.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Virtual Reality</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shuriken Particle System</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Local Leaderboard system</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Physics</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 5: WELCOME TO ZOMBIELENS -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('AayDwZq1E-s')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--  <i
+                            class="fa-solid fa-shapes text-6xl text-pink-500 group-hover:rotate-180 transition-transform duration-700"></i>-->
+                        <img src="images/welcome-to-zombielens.gif" class="w-full h-full object-cover"
+                            alt="Welcome To Zombie Lens AR">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-pink-400 border border-pink-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | AR | ANDROID | HORROR </div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                            Welcome To Zombie Lens</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            WELCOME TO ZOMBIELENS is a HORROR AR Lens that transforms your surroundings into a
+                            terrifying zombie-infested world. With realistic 3D zombies, eerie sound effects, and
+                            immersive AR technology, this lens provides a spine-chilling experience that will keep you
+                            on the edge of your seat. Whether you're exploring your neighborhood or just hanging out at
+                            home..<br><br>
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Augmented Reality
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                UI Animation</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Game Design</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                VFX Graph</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shader Graph</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: AR MOSQUITO KILLER -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('zqMoH_k895k')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--<i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/mosquito-killer-ar.gif" class="w-full h-full object-cover"
+                            alt="Mosquito Killer AR">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | AR | ANDROID | ARCADE</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            AR Mosquito Killer</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Tired of mosquitoes humming into your ears? Get your revenge by splatting virtual mosquitoes
+                            in your own environment.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Augmented Reality</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shuriken Particle System</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3:SAND TETRIS -->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('LzjTDr-zm2s')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--<i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/SandTetrisGameplay.gif" class="w-full h-full object-cover" alt="Sand Tetris">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | WINDOWS | COLOR MATCH | SAND SIMULATION | ARCADE | EXPERIMENTAL</div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            Sand Tetris</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            A fun twist on the classic Tetris game, where you stack sand blocks to create and destroy
+                            stable structures.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Simulation</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline
+                            </span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Post Processing</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Shuriken Particle System</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                FEEL</span>
+                        </div>
+                    </div>
+                </article>
+
+
+                <!-- Project 3:SAND SIM PROJECT-->
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('rbcKLvE9GQo')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <!--<i
+                            class="fa-solid fa-biohazard text-6xl text-green-600 group-hover:rotate-12 transition-transform duration-500"></i>-->
+                        <img src="images/SimpleSimulation.gif" class="w-full h-full object-cover" alt="Sand Tetris">
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-green-400 border border-green-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            [PERSONAL] | WINDOWS | SIMULATION | EXPERIMENTAL </div>
+                        <!-- Play Overlay -->
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                            Simple Simulation</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            A fun simulation project where you can play around with sand, block and water particles and
+                            see how they interact with each other and the environment. You can create sandstorms, build
+                            sandcastles, or just watch the mesmerizing patterns that emerge as the sand flows and
+                            settles.
+
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Simulation</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Gameplay Programming</span>
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">
+                                Universal Render Pipeline
+                            </span>
+                        </div>
+                    </div>
+                </article>
+
+
+
+
+
+
+
+
+                <!-- 
+                PROJECT 4: AR APPS (Substation & Fire Safety) - COMMENTED OUT
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <i
+                            class="fa-solid fa-mobile-screen-button text-6xl text-yellow-500 group-hover:scale-110 transition-transform duration-500"></i>
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-yellow-400 border border-yellow-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            VR / AR</div>
+
+                        Play Overlay with Two Buttons
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 gap-3 p-4">
+                            <button onclick="openVideoModal('EtwVUXiuS8M')"
+                                class="w-full max-w-[180px] bg-yellow-600 hover:bg-yellow-500 text-black px-4 py-2 rounded-full font-bold text-sm shadow-lg transform hover:scale-105 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-bolt"></i> Substation
+                            </button>
+                            <button onclick="openVideoModal('oslZ3KYyDBE')"
+                                class="w-full max-w-[180px] bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg transform hover:scale-105 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-fire-extinguisher"></i> Fire Safety
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
+                            AR &
+                            VR Applications</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            Industrial training modules including <strong>Electrical Substation</strong> and
+                            <strong>Fire & Safety</strong> simulations. Features realistic equipment
+                            interaction and
+                            safety protocols.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">AR
+                                Foundation</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Vuforia</span>
+                        </div>
+                    </div>
+                </article>
+                -->
+
+                <!-- Project 5: FALL GUYS 
+                <article class="project-card bg-[#1a1a1a] rounded-lg overflow-hidden group cursor-pointer"
+                    onclick="openVideoModal('RjHE_3lGqh4')">
+                    <div class="h-48 bg-gray-800 relative overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-90 z-10">
+                        </div>
+                        <i
+                            class="fa-solid fa-shapes text-6xl text-pink-500 group-hover:rotate-180 transition-transform duration-700"></i>
+                        <div
+                            class="absolute top-2 right-2 bg-black/80 text-pink-400 border border-pink-600 text-xs px-2 py-1 rounded font-bold z-20">
+                            3D PLATFORMER</div>
+                        <-- Play Overlay 
+                        <div
+                            class="play-overlay absolute inset-0 z-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i
+                                class="fa-brands fa-youtube text-5xl text-red-600 drop-shadow-lg bg-white rounded-full p-2"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                            Fall
+                            Guys Clone</h3>
+                        <p class="text-gray-400 text-sm mb-4 h-20 overflow-hidden">
+                            A single-player recreation of the "Door Dash" level. Features physics-based
+                            breakable doors,
+                            precise character movement, and obstacle interactions.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Physics</span>
+                            <span
+                                class="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded border border-gray-700">Cinemachine</span>
+                        </div>
+                    </div>
+                </article>-->
+
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Unity Skills Section -->
+    <section id="skills" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">TECHNICAL STATS</h2>
+                <div class="h-1 w-20 bg-gray-700 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Coding & Core -->
+                <div class="bg-[#1a1a1a] p-8 rounded-lg border border-gray-800">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa-solid fa-code text-cyan-500 mr-3"></i> Core Systems
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-300 font-medium">C# Programming</span>
+                                <span class="text-cyan-400 font-bold">95%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-cyan-500 h-2 rounded-full skill-fill" style="--width: 95%">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-300 font-medium">Unity Physics</span>
+                                <span class="text-cyan-400 font-bold">90%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-cyan-500 h-2 rounded-full skill-fill" style="--width: 90%">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-300 font-medium">VR/AR Development</span>
+                                <span class="text-cyan-400 font-bold">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-cyan-500 h-2 rounded-full skill-fill" style="--width: 85%">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-300 font-medium">3D Modeling</span>
+                                <span class="text-cyan-400 font-bold">95%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-cyan-500 h-2 rounded-full skill-fill" style="--width: 95%">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-300 font-medium">Game Design</span>
+                                <span class="text-cyan-400 font-bold">80%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-cyan-500 h-2 rounded-full skill-fill" style="--width: 80%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unity Tools -->
+                <div class="bg-[#1a1a1a] p-8 rounded-lg border border-gray-800">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa-solid fa-screwdriver-wrench text-cyan-500 mr-3"></i> Unity Packages
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">XR
+                            Interaction Toolkit</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">AR
+                            Foundation</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Vuforia</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Cinemachine</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Unity
+                            Recorder</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Shuriken Particle System</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            VFX Graph</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Shader Graph</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Unity
+                            Cutscene via Timeline</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">New
+                            Input System</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">NavMesh</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Git/GitHub</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Unity
+                            Editor Scripting</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Extension
+                            Methods</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Photon
+                            PUN</span>
+
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Cinemachine</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Recorder</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            FEEL</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            DoTween</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            LeanTween</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            ConvAI</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            CozyPro: Stylized Weather</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Unity In-App Purchasing</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Firebase</span>
+                    </div>
+                </div>
+
+                <!-- Other Software Tools -->
+                <div class="bg-[#1a1a1a] p-8 rounded-lg border border-gray-800">
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                        <i class="fa-solid fa-screwdriver-wrench text-cyan-500 mr-3"></i> Other Softwares
+                        Proficient
+                    </h3>
+                    <div class="flex flex-wrap gap-3">
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Blender</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Maya</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Substance
+                            Painter</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Unreal
+                            Engine</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">ZBrush</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Adobe
+                            Photoshop</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Mixamo</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Marmoset
+                            Toolbag 4</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">Figma</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Visual Studio</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Studio Code</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            GitHub Desktop</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            PureRef</span>
+                        <span
+                            class="px-3 py-2 bg-gray-800 border border-gray-700 text-gray-200 rounded text-sm font-semibold hover:border-cyan-500 hover:text-cyan-400 transition-colors">
+                            Mixamo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section id="recommendations" class="py-20 bg-[#0e0e0e]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">RECOMMENDATIONS</h2>
+                <div class="h-1 w-20 bg-cyan-600 mx-auto"></div>
+                <p class="mt-4 text-gray-400 text-sm"><i class="fa-solid fa-quote-left mr-2"></i>What people say about
+                    me &
+                    my work
+                    <i class="fa-solid fa-quote-right mr-2"></i>
+                </p>
+            </div>
+
+            <div class="relative">
+                <!-- Scrollable Container -->
+                <div class="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory"
+                    style="scrollbar-width: thin; scrollbar-color: #4b5563 #0a0a0a;">
+                    <!-- Recommendation 1 -->
+                    <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Virgil Wylie</h4>
+                                    <p class="text-gray-400 text-sm">Co Founder & Technical Head @BlueCreazione</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">"I’ve had the pleasure of working closely with Jitesh, and I
+                                can
+                                confidently say he is an exceptional Unity Developer and 3D Artist, blending strong
+                                technical Unity skills with a
+                                sharp artistic eye to deliver immersive, optimized, and polished experiences. He is
+                                dependable, proactive, and team-focused, taking ownership and fixing issues promptly.
+                                His versatility spans VR/AR, shaders, and high-quality assets, making him a valuable,
+                                hard-working asset. Highly recommended for top-tier Unity and 3D expertise with a
+                                collaborative mindset."</p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 2 -->
+                    <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Parini Ojha</h4>
+                                    <p class="text-gray-400 text-sm">Co Founder & Creative Head @BlueCreazione</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">"Jitesh is a very quick learner and highly reliable resource
+                                at our
+                                company. He h as been very hardworking over the past one year. He has Expertise in
+                                coding and
+                                managing Unity 3D projects using C# and also proficient in identifying & resolving
+                                software
+                                bugs.
+
+                                Embarking on the learning journey begins with the curiosity to inquire and the pursuit
+                                of
+                                answers. It seems that Jitesh has mastered this approach, which is the key to his rapid
+                                learning
+                                and swift achievements"</p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 3 -->
+                    <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-violet-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Sheldon George</h4>
+                                    <p class="text-gray-400 text-sm">CTO & Cofounder @Getting Grown LLC</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">"Great Development Team
+                                This team is always a pleasure to work with. Great communication and dedication to the
+                                project. Always find solutions to any problems or challenges we face. Highly
+                                recommended!"<br><br>
+                                "Great team to work with. This company provides quality work
+                                and has
+                                great work ethics.
+                                They are always a pleasure doing business with."</p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 4 -->
+                    <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Obey Joshua</h4>
+                                    <p class="text-gray-400 text-sm">Outsource Manager @iSabiPlay</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">"We’ve had a positive working experience with Blue Creazione
+                                on our
+                                game projects,
+                                Gbas Gbos Game and AfroWarrior. The team was collaborative,
+                                responsive, and open to feedback throughout the development process.
+                                They showed a good understanding of our ideas and worked with us to turn them into
+                                functional,
+                                playable builds. Communication was steady, and they were willing to make adjustments as
+                                the project evolved. Overall, Blue Creazione has been a reliable development partner,
+                                and we appreciate the effort they put into our projects."</p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 5 -->
+                    <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Fiverr Overall Reviews</h4>
+                                    <p class="text-gray-400 text-sm">Freelance Services</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">
+                                "I'm very happy with the result I got. Jiteshkumar is an amazing seller, fast and made
+                                sure I was happy with every part of the process. The final product was exactly what I
+                                wanted. I will be coming back to him if I need anything else. 100% recomended!"<br>
+                                <br>
+
+                                <!--"Great to work with, very professional, fast and a hidden gem."<br><br>-->
+                                "The seller is very easy to work with. I've now done two projects with him and he is
+                                very patient with me every single time. He's quick to respond and doesn't put an order
+                                through until you are satisfied"
+                                <br><br>
+                                Plus, more positive reviews on Fiverr with consistent 5-star ratings and repeated
+                                client testimonials.
+                                <br><br>
+
+                                Overall Rating : 4.9/5"
+                            </p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation 5 -->
+                    <!-- <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 snap-center">
+                        <div
+                            class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-cyan-500 transition-colors duration-300 h-full">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fa-solid fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-bold">Additional Reviewer</h4>
+                                    <p class="text-gray-400 text-sm">Position @Company</p>
+                                </div>
+                            </div>
+                            <p class="text-gray-300 italic">"This is a placeholder for the fifth recommendation. Replace
+                                with actual testimonial."</p>
+                            <div class="flex text-cyan-400 mt-4">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+
+                <!-- Scroll Indicators (Optional) -->
+                <!-- <div class="flex justify-center mt-6 space-x-2">
+                    <div class="w-3 h-3 bg-cyan-600 rounded-full cursor-pointer" onclick="scrollToSlide(0)"></div>
+                    <div class="w-3 h-3 bg-gray-600 rounded-full cursor-pointer" onclick="scrollToSlide(1)"></div>
+                    <div class="w-3 h-3 bg-gray-600 rounded-full cursor-pointer" onclick="scrollToSlide(2)"></div>
+                    <div class="w-3 h-3 bg-gray-600 rounded-full cursor-pointer" onclick="scrollToSlide(3)"></div>
+                    <div class="w-3 h-3 bg-gray-600 rounded-full cursor-pointer" onclick="scrollToSlide(4)"></div>
+                </div>-->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gradient-to-b from-black to-[#0a0a0a] relative border-t border-gray-900">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">CONTACT</h2>
+            <p class="text-gray-400 text-lg mb-10">
+                Jitesh Kumar | Unity Developer<br>
+                Open to opportunities in VR, AR, Game Development, Game Design and Technical Art.
+            </p>
+
+            <div
+                class="bg-[#151515] p-10 rounded-lg border border-gray-800 shadow-lg inline-block hover:border-cyan-500 transition-colors duration-300 group">
+                <a href="mailto:jiteshbedariya@gmail.com" class="flex flex-col md:flex-row items-center gap-4">
+                    <i
+                        class="fa-solid fa-envelope text-4xl text-cyan-500 group-hover:scale-110 transition-transform"></i>
+                    <span
+                        class="text-xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">Contact
+                        Me</span>
+                </a>
+            </div>
+
+            <div class="mt-12 flex justify-center space-x-8">
+                <!-- LinkedIn Updated -->
+                <a href="https://www.linkedin.com/in/jitesh-kumar-dev/" target="_blank"
+                    class="text-gray-500 hover:text-cyan-400 transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-linkedin text-4xl"></i>
+                </a>
+                <!--<a href="#" class="text-gray-500 hover:text-cyan-400 transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-github text-4xl"></i>
+                </a> 
+                -->
+                <a href="https://jitesh-kumar.itch.io/"
+                    class="text-gray-500 hover:text-cyan-400 transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-itch-io text-4xl"></i>
+                </a>
+
+                <a href="https://jitesh.artstation.com/"
+                    class="text-gray-500 hover:text-cyan-400 transition-colors transform hover:scale-110">
+                    <i class="fa-brands fa-artstation text-4xl"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Modal -->
+    <div id="video-modal"
+        class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/90 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-none"
+        onclick="if(event.target === this) closeVideoModal()">
+        <div
+            class="relative w-full max-w-5xl mx-4 aspect-video bg-black rounded-lg overflow-hidden border border-gray-800 shadow-[0_0_50px_rgba(0,255,255,0.2)] transform scale-95 transition-transform duration-300">
+            <button onclick="closeVideoModal()"
+                class="absolute top-4 right-4 z-10 text-white hover:text-red-500 text-3xl drop-shadow-md transition-colors bg-black/50 rounded-full w-10 h-10 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="video-container" class="w-full h-full">
+                <!-- Iframe injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Intersection Observer for Skill Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.skill-fill').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Smooth Scroll with Safety Check
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                menu.classList.add('hidden');
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                } else {
+                    console.warn('Target element not found:', targetId);
+                }
+            });
+        });
+
+        // Video Modal Logic (YouTube Version)
+        const modal = document.getElementById('video-modal');
+        const videoContainer = document.getElementById('video-container');
+
+        function openVideoModal(videoId) {
+            // Create Youtube Iframe
+            videoContainer.innerHTML = `
+                <iframe width="100%" height="100%" 
+                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>`;
+
+            // Show modal
+            modal.classList.remove('hidden');
+            // Small timeout to allow removing hidden to apply first, then opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeVideoModal() {
+            // Hide modal visually
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.add('scale-95');
+            modal.querySelector('div').classList.remove('scale-100');
+
+            // Wait for transition to finish before hiding completely
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                videoContainer.innerHTML = ""; // Stop video by removing iframe
+            }, 300);
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                closeVideoModal();
+            }
+        });
+
+        // Recommendations Slider Logic
+        function scrollToSlide(index) {
+            const container = document.querySelector('#recommendations .flex.overflow-x-auto');
+            const slides = container.children;
+            if (slides[index]) {
+                slides[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }
+        }
+
+        // Update indicators on scroll
+        const recommendationsContainer = document.querySelector('#recommendations .flex.overflow-x-auto');
+        const indicators = document.querySelectorAll('#recommendations .flex.justify-center .w-3');
+
+        recommendationsContainer.addEventListener('scroll', () => {
+            const scrollLeft = recommendationsContainer.scrollLeft;
+            const slideWidth = recommendationsContainer.clientWidth;
+            const activeIndex = Math.round(scrollLeft / slideWidth);
+
+            indicators.forEach((indicator, index) => {
+                if (index === activeIndex) {
+                    indicator.classList.remove('bg-gray-600');
+                    indicator.classList.add('bg-cyan-600');
+                } else {
+                    indicator.classList.remove('bg-cyan-600');
+                    indicator.classList.add('bg-gray-600');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
